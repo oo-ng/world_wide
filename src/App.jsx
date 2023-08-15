@@ -9,19 +9,17 @@ import Login from './pages/Login';
 
 export const App =()=>{
 
-  return(
-    <div>
-      Hello
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<HomePage/>}/>
-          <Route path='pricing' element={<Pricing/>}/>
-          <Route path="product" element={<Product/>}/>
-          <Route path='*' element={<PageNotFound/>}/>
-          <Route path='/app' element={<AppLayout/>}/>
-          <Route path='/login' element={<Login/>}/>
-        </Routes>
-      </BrowserRouter>
-    </div>
+  return(      
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<HomePage/>}/>
+        <Route path='pricing' element={<Pricing/>}/>
+        <Route path="product" element={<Product/>}/>
+        <Route path='*' element={<PageNotFound/>}/>
+        <Route path='/app' element={<AppLayout/>}/>
+        <Route path='/login' element={<Login/>}/>
+      </Routes>
+    </BrowserRouter>
+    
   )
 }
