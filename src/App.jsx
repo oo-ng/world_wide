@@ -4,6 +4,7 @@ import  {BrowserRouter, Route, Routes}  from 'react-router-dom';
 import  HomePage  from './pages/HomePage';
 import  PageNotFound  from './pages/PageNotFound';
 import  {AppLayout}  from './pages/AppLayout';
+import Login from './pages/Login';
 
 
 export const App =()=>{
@@ -17,7 +18,8 @@ export const App =()=>{
           <Route path='pricing' element={<Pricing/>}/>
           <Route path="product" element={<Product/>}/>
           <Route path='*' element={<PageNotFound/>}/>
-          <Route path='/AppLayout' element={<AppLayout/>}/>
+          <Route path='/app' element={<AppLayout/>}/>
+          <Route path='/login' element={<Login/>}/>
         </Routes>
       </BrowserRouter>
     </div>
