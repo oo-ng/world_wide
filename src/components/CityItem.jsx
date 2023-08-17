@@ -10,7 +10,7 @@ const formatDate = (date) =>
   }).format(new Date(date));
 
 import styles from './CityItem.module.css'
-export const CityItem = ({city}) => {
+export const CityItem = ({city,setCityToBeDeletedID}) => {
     
     return(
         <li className={styles.cityItem}>
@@ -18,7 +18,7 @@ export const CityItem = ({city}) => {
             <span className={styles.emoji}>{city.emoji}</span>
             <h3 className={styles.name}>{city.cityName}</h3>
             <time className={styles.date}>{formatDate(city.date)}</time>
-            <button className={styles.deleteBtn}>&times;</button>
+            <button onClick={()=>setCityToBeDeletedID(city.id)} className={styles.deleteBtn}>&times;</button>
             
         </li>
     )
