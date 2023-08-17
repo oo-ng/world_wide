@@ -1,5 +1,3 @@
-
-
 import { useReducer, useEffect } from "react"
 export const useFetchData = ({query}) => {
     
@@ -15,6 +13,8 @@ export const useFetchData = ({query}) => {
                 return{...state, cityList:action.payload}
             case "finishedLoading":
                 return{...state, status:"ready"}
+            case "updateCityList":
+                return{...state, cityList:action.payload}
             default:
                 throw new Error("unknown action");
         }
@@ -46,6 +46,6 @@ export const useFetchData = ({query}) => {
     },[ query])
 
 
-    console.log("Fetched data", cityList)
-    return[status,cityList]
+
+    return[status , cityList, dispatch]
 }
