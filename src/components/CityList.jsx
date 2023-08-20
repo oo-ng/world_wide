@@ -12,6 +12,7 @@ export const CityList = () => {
     const [status, cityList, dispatch] = useFetchData({query});
     const [filteredCityList, setFilteredCityList]=useState([]);
 
+
     useEffect(()=>{
         if(status==="ready"){
             setFilteredCityList(cityList);
@@ -19,16 +20,17 @@ export const CityList = () => {
         
     },[ status, cityList])
 
-    useEffect(() => {
-         const filteredList = filteredCityList.filter((city)=>
-                    city.id !== cityToBeDeletedID
-            )  
-            setFilteredCityList(filteredList);
+    const handleDeleteCityClick= (ID) => {
+        setCityToBeDeletedID(ID);
+        const filteredList = filteredCityList.filter((city)=>
+                city.id !== ID
+        )  
+        setFilteredCityList(filteredList);
 
-            dispatch({type:"updateCityList", payload:filteredList})
-            console.log("Updated cityList", cityList)
+        dispatch({type:"updateCityList", payload:filteredList})
+        console.log("Updated cityList", cityList)
 
-    },[cityToBeDeletedID])
+    }
     
     // useEffect(() => {
     //     const filteredList = cityList.filter(city => city.id !== cityToBeDeletedID);
@@ -36,14 +38,9 @@ export const CityList = () => {
     // }, [cityList, cityToBeDeletedID]);
     
 
-    if (cityList.length===0&&status!=="loading")return(
+    if ( cityList?.length===0 &&status!=="loading")return(
     <Message message="Add your first city by clicking on a city on the map" />
     )
-
-    
-   
-
-    
 
     
     return(
@@ -53,7 +50,9 @@ export const CityList = () => {
             {filteredCityList.map((city)=>
 
             <CityItem 
-            setCityToBeDeletedID={setCityToBeDeletedID} key={city.id}
+            setCityToBeDeletedID={setCityToBeDeletedID} 
+            handleDeleteCityClick={handleDeleteCityClick}
+            key={city.id}
             city={city}/>
             
            )}

@@ -4,17 +4,14 @@ import { useFetchData } from './useFetchData'
 import Spinner from './Spinner';
 import CountryItem from './CountryItem'
 import { useEffect, useState } from 'react';
+import Message from './Message';
 export const CountryList = () => {
     
     const query="cities";
     const [status, cityList] = useFetchData({query});
     const [updatedCountryList, setUpdatedCountryList] = useState();
 
-    // useEffect(()=>{
-    //     if(status==="ready"){
-    //         setUpdatedCountryList(cityList)
-    //     }
-    // },[cityList, status])
+   
 
 useEffect(()=>{
     const uniqueByCountry = (cityList) =>{
@@ -27,18 +24,24 @@ useEffect(()=>{
             return false;
         })
     }
-
-    const uniqueCountryList = uniqueByCountry(cityList)
-    setUpdatedCountryList(uniqueCountryList);
-    console.log("Unique country list",uniqueCountryList);
+    if(cityList){
+        const uniqueCountryList = uniqueByCountry(cityList)
+        setUpdatedCountryList(uniqueCountryList);
+        console.log("Unique country list",uniqueCountryList);
+    }
+    
 
 },[cityList])
+
+if ( cityList?.length===0 &&status!=="loading")return(
+    <Message message="Add your first city... The country will show up here." />
+    )
     
     
     return(
         <>
             {status==="loading" ? <Spinner/>:(<ul className={styles.countryList}>
-           { updatedCountryList.map((country)=>
+           { updatedCountryList?.map((country)=>
            
             <CountryItem key={country.id} country={country}/>
            
