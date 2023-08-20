@@ -1,5 +1,8 @@
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useFetchData } from "./useFetchData";
 import styles from "./City.module.css";
+
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
@@ -10,15 +13,42 @@ const formatDate = (date) =>
   }).format(new Date(date));
 
 function City() {
+  const [selectedCity, setSelectedCity] = useState();
 
   const {id} = useParams();
-  console.log(id);
+  console.log(typeof(id))
+  const query = "cities";
+    const [status, cityList] = useFetchData({query});
+  console.log(status)
+  useEffect (()=>{
+  
+  if(status==="ready"){
+    console.log("cityList", cityList)
+
+    const city = cityList.find(
+    city => city.id === Number(id));
+
+    setSelectedCity(city);
+
+  }
+
+  },[cityList,selectedCity,status ,id])
+  
+  
+  
+
+  console.log("selected city:", selectedCity)
+
+  console.log("From useParams",id);
+
+  
+
   // TEMP DATA
   const currentCity = {
-    cityName: "Lisbon",
-    emoji: "🇵🇹",
-    date: "2027-10-31T15:59:59.138Z",
-    notes: "My favorite city so far!",
+    cityName: selectedCity?.cityName,
+    emoji: selectedCity?.emoji,
+    date: selectedCity?.date,
+    notes: selectedCity?.notes,
   };
 
   const { cityName, emoji, date, notes } = currentCity;

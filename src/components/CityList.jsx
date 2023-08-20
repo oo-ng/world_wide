@@ -32,11 +32,6 @@ export const CityList = () => {
 
     }
     
-    // useEffect(() => {
-    //     const filteredList = cityList.filter(city => city.id !== cityToBeDeletedID);
-    //     setFilteredCityList(filteredList);
-    // }, [cityList, cityToBeDeletedID]);
-    
 
     if ( cityList?.length===0 &&status!=="loading")return(
     <Message message="Add your first city by clicking on a city on the map" />

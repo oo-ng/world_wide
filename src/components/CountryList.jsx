@@ -24,6 +24,7 @@ useEffect(()=>{
             return false;
         })
     }
+    
     if(cityList){
         const uniqueCountryList = uniqueByCountry(cityList)
         setUpdatedCountryList(uniqueCountryList);
