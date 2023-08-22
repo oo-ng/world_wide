@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFetchData } from "./useFetchData";
 import styles from "./City.module.css";
 import { Button } from "./Button";
 import { useNavigate } from "react-router-dom";
-
+import { useCities } from "./context/citiesProvider";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
@@ -18,31 +18,27 @@ const formatDate = (date) =>
 
 function City() {
   const navigate = useNavigate();
-  const [selectedCity, setSelectedCity] = useState();
+  
 
   const {id} = useParams();
-  console.log(typeof(id))
   const query = `cities/${id}`;
-    const [status, cityList] = useFetchData({query});
-  console.log(status)
+  const [status, data] = useFetchData({query});
+  const {selectedCity, dispatch} = useCities();
   useEffect (()=>{
   
   if(status==="ready"){
-    console.log("cityList", cityList)
-
-    const city = cityList.find(
-    city => city.id === Number(id));
-
-    setSelectedCity(city);
+    console.log("selected City", data)
+    dispatch({type:"setSelectedCity", payload:data})
+    
 
   }
 
-  },[cityList,selectedCity,status ,id])
+  },[data, status, query, id, dispatch])
   
   
   
 
-  console.log("selected city:", selectedCity)
+  console.log("selected city: ", selectedCity)
 
   console.log("From useParams",id);
 

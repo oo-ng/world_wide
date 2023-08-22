@@ -12,13 +12,15 @@ const CityProvider = ({children}) => {
     const initialState = {
         status:"loading",
         cityList:null,
+        selectedCity:""
         
     }
 
     const reducer =(state, action)=>{
         switch(action.type){
+            case "setSelectedCity":
+                return{...state, selectedCity:action.payload}
             case "setCityList":
-                
                 return{...state, cityList:action.payload}
             case "finishedLoading":
                 return{...state, status:"ready"}
@@ -34,7 +36,7 @@ const CityProvider = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const {cityList,status}=state;
+    const {cityList,status, selectedCity} = state;
 
     useEffect(()=>{
         const fetchData = async()=>{
@@ -76,7 +78,8 @@ const CityProvider = ({children}) => {
 
 
     return(
-        <CityContext.Provider value={{cityList, status, dispatch}}>
+        <CityContext.Provider 
+        value={{cityList, status, dispatch, selectedCity}}>
             {children}
         </CityContext.Provider>
     )
