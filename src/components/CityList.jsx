@@ -1,15 +1,16 @@
-/* eslint-disable no-unused-vars */
+
 import styles from './CityList.module.css'
 import Spinner from './Spinner'
 import { useState, useEffect } from 'react'
 import { CityItem } from './CityItem'
 import Message from './Message'
-import { useFetchData } from './useFetchData'
+import { useCities } from './context/citiesProvider'
+
+
 
 export const CityList = () => {
     const [cityToBeDeletedID,setCityToBeDeletedID]=useState()
-    const query = "cities";
-    const [status, cityList, dispatch] = useFetchData({query});
+    const {status, cityList, dispatch} = useCities();
     const [filteredCityList, setFilteredCityList]=useState([]);
 
 

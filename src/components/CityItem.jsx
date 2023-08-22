@@ -18,7 +18,10 @@ export const CityItem = ({city,handleDeleteCityClick}) => {
             <span className={styles.emoji}>{city.emoji}</span>
             <h3 className={styles.name}>{city.cityName}</h3>
             <time className={styles.date}>{formatDate(city.date)}</time>
-            <button onClick={()=>handleDeleteCityClick(city.id)} className={styles.deleteBtn}>&times;</button>
+            <button onClick={(event)=>{handleDeleteCityClick(city.id);
+            event.stopPropagation();
+            event.preventDefault();}}
+            className={styles.deleteBtn}>&times;</button>
         </Link>
     )
 }

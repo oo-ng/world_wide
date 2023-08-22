@@ -5,10 +5,10 @@ import Spinner from './Spinner';
 import CountryItem from './CountryItem'
 import { useEffect, useState } from 'react';
 import Message from './Message';
+import { useCities } from './context/citiesProvider';
 export const CountryList = () => {
     
-    const query="cities";
-    const [status, cityList] = useFetchData({query});
+    const {status, cityList} = useCities();
     const [updatedCountryList, setUpdatedCountryList] = useState();
 
    

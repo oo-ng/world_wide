@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFetchData } from "./useFetchData";
 import styles from "./City.module.css";
+import { Button } from "./Button";
+import { useNavigate } from "react-router-dom";
 
 
 const formatDate = (date) =>
@@ -12,12 +14,15 @@ const formatDate = (date) =>
     weekday: "long",
   }).format(new Date(date));
 
+
+
 function City() {
+  const navigate = useNavigate();
   const [selectedCity, setSelectedCity] = useState();
 
   const {id} = useParams();
   console.log(typeof(id))
-  const query = "cities";
+  const query = `cities/${id}`;
     const [status, cityList] = useFetchData({query});
   console.log(status)
   useEffect (()=>{
@@ -86,7 +91,11 @@ function City() {
       </div>
 
       <div>
-        {/* <ButtonBack /> */}
+        <Button
+        onClick={()=>navigate(-1)}
+        type={"back"}>
+          &larr; Back
+        </Button>
       </div>
     </div>
   );
