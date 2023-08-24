@@ -2,7 +2,7 @@ import { useReducer, useEffect } from "react"
 export const useFetchData = ({query}) => {
     
     const initialState = {
-        status:"loading",
+        statusofData:"loading",
         data:null,
         
     }
@@ -12,7 +12,7 @@ export const useFetchData = ({query}) => {
             case "setData":
                 return{...state, data:action.payload}
             case "finishedLoadingData":
-                return{...state, status:"ready"}
+                return{...state, statusofData:"ready"}
             default:
                 throw new Error("unknown action");
         }
@@ -21,7 +21,7 @@ export const useFetchData = ({query}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const {data,status}=state;
+    const {data,statusofData}=state;
 
     useEffect(()=>{
         const fetchData = async()=>{
@@ -50,5 +50,5 @@ export const useFetchData = ({query}) => {
 
 
 
-    return[status ,data, dispatch]
+    return[statusofData ,data, dispatch]
 }

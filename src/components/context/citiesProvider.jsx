@@ -14,6 +14,7 @@ const CityProvider = ({children}) => {
         cityList:null,
         selectedCity:""
         
+        
     }
 
     const reducer =(state, action)=>{
