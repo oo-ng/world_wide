@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styles from './SideBar.module.css'
 import Logo from "./Logo"
 import { AppNav } from "./AppNav"
