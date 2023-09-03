@@ -1,11 +1,17 @@
 /* eslint-disable no-unused-vars */
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
 
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { BackButton } from "./BackButton";
 import styles from "./Form.module.css";
 import { Button } from "./Button";
 import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { useURLposition } from "./useURLposition";
+import Spinner from "./Spinner";
+import Message from "./Message";
+import { useCities } from "./context/citiesProvider";
+
 
 export function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -16,13 +22,117 @@ export function convertToEmoji(countryCode) {
 }
 
 function Form() {
-  const navigate= useNavigate();
+  const [searchParams, setSearchParams]= useSearchParams();
+  const navigate = useNavigate();
   const [cityName, setCityName] = useState("");
-  const [country, setCountry] = useState("");
+  const [countryName, setCountryName] = useState("");
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
+  const [lat, lng] = useURLposition();
+  const [isLeodingGeoCoding,setIsLeodingGeoCoding] = useState(false);
+  const [emoji, setEmoji] = useState()
+  const [geocodingError, setGeocodingError] = useState("")
+  const {cityList, dispatch, status} = useCities();
+  
+
+
+
+  
+
+  useEffect(()=>{
+    if(!lat&&!lng){return}
+
+      const fetchCityData =async ()=>{
+        try{ 
+          setGeocodingError("");
+          setIsLeodingGeoCoding(true);
+          const response = await fetch (`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`)
+
+          if (!response.ok){
+            throw Error (`couldnt fetch geoLocation data at Lat: ${lat} and Lng: ${lat}`)
+          }
+
+          const jsonData = await response.json()
+          if(!jsonData.countryCode){
+            throw new Error("Not a city, Please select another location")
+          }
+          console.log(jsonData);
+          setIsLeodingGeoCoding(false);
+          setCityName(jsonData.city||"");
+          setCountryName(jsonData.countryName)
+
+          setEmoji(convertToEmoji(jsonData.countryCode));
+        }catch(error){
+          console.error(error.message);
+          setGeocodingError(error.message)
+          
+        }
+      }
+
+      fetchCityData();
+   
+    
+  },[lat, lng])
+
+  const uniqueCityCheck = (newCityParam)=>{
+    return cityList.some(city=> city.cityName === newCityParam.cityName)
+  }
+  
+
+  const handleAddCityClick = (e) =>{
+    e.preventDefault();
+    const newCity={
+      cityName: cityName,
+      country: countryName
+      ,
+      emoji: emoji,
+      date: date,
+      notes: notes,
+      position:{
+        lat:lat,
+        lng:lng
+      },
+      id:new Date().getTime()
+    }
+    console.log(uniqueCityCheck(newCity))
+    
+    if(uniqueCityCheck(newCity)===false){
+      const newCityList= [...cityList, newCity]
+      dispatch({type:"updateCityList", payload:newCityList})
+      navigate('/app/cities')
+    }else{
+      return(
+        <>
+        {setGeocodingError("City is already in list")}
+        {console.log("Duplicate")}
+        
+        </>
+      )
+      
+    }
+
+    
+    
+  }
+
+
+  if(geocodingError) {
+    return (
+      <>
+    <Message message={geocodingError}/>
+    <BackButton/>
+    </>
+    )
+  }
+
+  if(!lat&&!lng){
+    return( <Message message="Start by selecting a city"/>)
+  }
 
   return (
+    <>
+    
+    {isLeodingGeoCoding === true ?<Spinner/>:
     <form className={styles.form}>
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
@@ -31,7 +141,7 @@ function Form() {
           onChange={(e) => setCityName(e.target.value)}
           value={cityName}
         />
-        {/* <span className={styles.flag}>{emoji}</span> */}
+        <span className={styles.flag}>{emoji}</span>
       </div>
 
       <div className={styles.row}>
@@ -53,18 +163,12 @@ function Form() {
       </div>
 
       <div className={styles.buttons}>
-        <Button type="primary">Add</Button>
-        <Button 
-        type="back" 
-        onClick={(e)=>{
-        e.preventDefault();
-        navigate(-1);
-        }
-        
-        }>&larr; Back</Button>
+        <Button onClick={handleAddCityClick} type="primary">Add</Button>
+        <BackButton/>
         
       </div>
-    </form>
+    </form>}
+    </>
   );
 }
 

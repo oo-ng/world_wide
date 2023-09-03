@@ -26,7 +26,7 @@ const CityProvider = ({children}) => {
             case "finishedLoading":
                 return{...state, status:"ready"}
             case "updateCityList":
-                localStorage.setItem('cityData', JSON.stringify(action.payload) );
+                
                 return{...state, cityList:action.payload}
                 default:
                     throw new Error(`Unknown action type: ${action.type}`);
@@ -42,18 +42,7 @@ const CityProvider = ({children}) => {
     useEffect(()=>{
         const fetchData = async()=>{
             try{
-                const storedData = localStorage.getItem('cityData')
-                console.log("stored data",storedData);
                 
-                if(storedData){
-                    console.log(storedData);
-                    
-                    console.log("using stored data", storedData)
-                    dispatch({ type: "setCityList", payload: JSON.parse(storedData) });
-                    dispatch({ type: "finishedLoading" });
-                    
-                }else{
-                    console.log("not using stored data")
                     const response= await fetch(`http://localhost:3002/cities`);
                     if (!response.ok){
                         throw new Error(`Couldn't fetch data for: cities` );
@@ -62,10 +51,10 @@ const CityProvider = ({children}) => {
 
                     const jsonData = await response.json();
                     
-                    localStorage.setItem('cityData', JSON.stringify(jsonData));
+                    
                     dispatch({type:"setCityList", payload:jsonData})
                     
-                }
+                
             }catch(error){
                 console.error(error.message)
             }finally{
@@ -92,9 +81,9 @@ const useCities = () =>{
     const context = useContext(CityContext);
     if (context === undefined ){
         throw new Error("CityContext was used outside of the CityProvider")
-    }
+        }
        
-        return context;
+    return context;
 }
 
 export {CityProvider, useCities };

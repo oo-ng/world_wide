@@ -13,7 +13,6 @@ export const CityList = () => {
     const {status, cityList, dispatch} = useCities();
     const [filteredCityList, setFilteredCityList]=useState([]);
 
-
     useEffect(()=>{
         if(status==="ready"){
             setFilteredCityList(cityList);
