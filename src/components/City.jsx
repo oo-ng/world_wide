@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useFetchData } from "./useFetchData";
 import styles from "./City.module.css";
-import { BackButton } from "./BackButton";
+import { Button } from "./Button";
 import { useCities } from "./context/citiesProvider";
 import Spinner from "./Spinner";
 const formatDate = (date) =>
@@ -18,7 +18,7 @@ const formatDate = (date) =>
 function City() {
 
   
-
+  const navigate =useNavigate()
   const {id} = useParams();
   const query = `cities/${id}`;
   const [statusofData, data] = useFetchData({query});
@@ -83,7 +83,14 @@ function City() {
         </div>
 
         <div>
-          <BackButton/>
+          <Button type={"back"} 
+            onClick={(event)=>{
+            event.stopPropagation();
+            navigate("/app/cities")}}>
+              
+            &larr; Back
+
+          </Button>
         </div>
       </div>}
     </>

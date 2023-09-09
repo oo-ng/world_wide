@@ -10,7 +10,7 @@ import { useCities } from './context/citiesProvider'
 
 export const CityList = () => {
     const [cityToBeDeletedID,setCityToBeDeletedID]=useState()
-    const {status, cityList, dispatch} = useCities();
+    const {status, cityList, dispatch, deleteCity} = useCities();
     const [filteredCityList, setFilteredCityList]=useState([]);
 
     useEffect(()=>{
@@ -22,12 +22,15 @@ export const CityList = () => {
 
     const handleDeleteCityClick= (ID) => {
         setCityToBeDeletedID(ID);
-        const filteredList = filteredCityList.filter((city)=>
-                city.id !== ID
-        )  
+        deleteCity(ID);
+        const filteredList = filteredCityList.filter((city)=>{
+            
+            return(city.id !== ID)
+        })  
         setFilteredCityList(filteredList);
 
         dispatch({type:"updateCityList", payload:filteredList})
+        
         console.log("Updated cityList", cityList)
 
     }
@@ -42,14 +45,15 @@ export const CityList = () => {
         <>
             {status==="loading" ? <Spinner/>:(
             <ul className={styles.cityList}>
-            {filteredCityList.map((city)=>
+            {filteredCityList.map((city)=>{
+            console.log("CIty:", city)
 
-            <CityItem 
+            return(<CityItem 
+            key={city.id}
             setCityToBeDeletedID={setCityToBeDeletedID} 
             handleDeleteCityClick={handleDeleteCityClick}
-            key={city.id}
-            city={city}/>
-            
+            city={city}/>)
+            }
            )}
         </ul>)}
         {console.log("cityToBeDeletedID",cityToBeDeletedID)}

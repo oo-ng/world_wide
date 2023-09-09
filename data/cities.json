@@ -1,18 +1,6 @@
 {
   "cities": [
     {
-      "cityName": "Lisbon",
-      "country": "Portugal",
-      "emoji": "🇵🇹",
-      "date": "2027-10-31T15:59:59.138Z",
-      "notes": "My favorite city so far!",
-      "position": {
-        "lat": 38.727881642324164,
-        "lng": -9.140900099907554
-      },
-      "id": 73930385
-    },
-    {
       "cityName": "Madrid",
       "country": "Spain",
       "emoji": "🇪🇸",
@@ -35,7 +23,78 @@
         "lng": 13.376933665713324
       },
       "id": 98443197
+    },
+    {
+      "cityName": "Greater London",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2023-09-08T18:59:44.400Z",
+      "notes": "dirty",
+      "position": {
+        "lat": 51.50421628351127,
+        "lng": -0.12359525213982538
+      },
+      "id": 98443198
+    },
+    {
+      "cityName": "Bedford",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2023-09-09T13:18:55.192Z",
+      "notes": "Good ",
+      "position": {
+        "lat": 52.11603010333102,
+        "lng": -0.4930034652516381
+      },
+      "id": 98443199
+    },
+    {
+      "cityName": "Stevenage",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2023-09-09T13:24:14.924Z",
+      "notes": "Nice",
+      "position": {
+        "lat": 51.89691688173537,
+        "lng": -0.2018715347828204
+      },
+      "id": 98443200
+    },
+    {
+      "cityName": "Iseyin",
+      "country": "Nigeria",
+      "emoji": "🇳🇬",
+      "date": "2023-09-09T13:27:50.365Z",
+      "notes": "Its good ",
+      "position": {
+        "lat": 7.962229738384177,
+        "lng": 3.5966492934085363
+      },
+      "id": 98443201
+    },
+    {
+      "cityName": "Inverness",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2023-09-09T13:53:58.330Z",
+      "notes": "trip",
+      "position": {
+        "lat": 57.482830258040266,
+        "lng": -4.196689774430904
+      },
+      "id": 98443202
+    },
+    {
+      "cityName": "Ogo Oluwa",
+      "country": "Nigeria",
+      "emoji": "🇳🇬",
+      "date": "2023-09-09T13:54:40.763Z",
+      "notes": "It was a nice place\n",
+      "position": {
+        "lat": 7.980967262475192,
+        "lng": 4.252214016669545
+      },
+      "id": 98443203
     }
-    
   ]
 }
