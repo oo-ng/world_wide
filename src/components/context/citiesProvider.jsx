@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useReducer, useContext, createContext } from "react";
-
-
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import firebaseapp from "../../firebase/firebase";
 
 const CityContext = createContext();
 
@@ -12,12 +13,13 @@ const CityProvider = ({children}) => {
     const initialState = {
         status:"loading",
         cityList:null,
-        selectedCity:""
-        
+        selectedCity:"",
+        LoggedIn:"",
+        username:""
         
     }
 
-
+    
 
     const reducer =(state, action)=>{
         switch(action.type){
@@ -30,10 +32,13 @@ const CityProvider = ({children}) => {
             case "startLoading":
                 return{...state, status:"loading"}
             case "updateCityList":
-                
                 return{...state, cityList:action.payload}
-                default:
-                    throw new Error(`Unknown action type: ${action.type}`);
+            case "ChangeLoggedInState":
+                return{...state, LoggedIn:action.payload}
+            case "updateUser":
+                return{...state, username:action.payload}
+            default:
+                throw new Error(`Unknown action type: ${action.type}`);
                 
         }
     }
@@ -41,7 +46,7 @@ const CityProvider = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const {cityList,status, selectedCity} = state;
+    const {cityList,status, username, LoggedIn, selectedCity} = state;
 
     const fetchCityListData = async()=>{
         try{
@@ -66,6 +71,26 @@ const CityProvider = ({children}) => {
 
     },[])
 
+    useEffect(()=>{
+        let x='';
+        const auth = getAuth(firebaseapp)
+        onAuthStateChanged(auth, (user) => {
+            
+            if (user) {
+                x=true;
+            } else {
+                x=false;
+            }
+            console.log("check,",x)
+            
+            dispatch({type:"ChangeLoggedInState", payload:x})
+            if(x===true){
+                const displayame=(auth.currentUser.displayName);
+                dispatch({type:"updateUser", payload:displayame})
+            }
+        });
+    },[onAuthStateChanged])
+
     
     const deleteCity = async(cityToBeDeletedID)=>{
         try{
@@ -79,10 +104,21 @@ const CityProvider = ({children}) => {
             }
             
 
-        } catch(error){
+        } catch(error){ 
         console.error(error.message)
         }
     }
+
+    const Signout = () =>{
+        const auth = getAuth(firebaseapp)
+        signOut(auth)
+        .then(() => {
+        console.log("User signed out successfully");
+        }).catch((error) => {
+        console.error("Error signing out:", error.message);
+        });
+    } 
+    
 
     const createCity = async(newCity)=>{
         try{
@@ -112,7 +148,7 @@ const CityProvider = ({children}) => {
 
     return(
         <CityContext.Provider 
-        value={{cityList, status, dispatch, deleteCity, selectedCity, createCity}}>
+        value={{cityList, status, Signout, username,LoggedIn, dispatch, deleteCity, selectedCity, createCity}}>
             {children}
         </CityContext.Provider>
     )

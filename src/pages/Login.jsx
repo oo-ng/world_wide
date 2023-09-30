@@ -1,11 +1,37 @@
+/* eslint-disable no-unused-vars */
 import styles from "./Login.module.css";
 import { useState } from "react";
+import firebaseapp from "../firebase/firebase";
+import{getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { useNavigate,NavLink } from "react-router-dom";
 import { PageNav } from "../components/PageNav";
 
-export default function Login() {
-  // PRE-FILL FOR DEV PURPOSES
-  const [email, setEmail] = useState("jack@example.com");
-  const [password, setPassword] = useState("qwerty");
+
+
+ export function Login() {
+  const auth= getAuth(firebaseapp);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmission= async (e)=>{
+    e.preventDefault();
+    try{
+      const userCredential = await signInWithEmailAndPassword(auth,email,password);
+      console.log(userCredential);
+      setMessage("Login successful.");
+      setTimeout(()=>{
+        navigate('/');
+    },1000);
+  
+    }
+    catch(error){
+      setMessage(error.message);
+      throw new Error("Login error");
+      
+    }
+  }
 
   return (
     <main className={styles.login}>
@@ -32,7 +58,15 @@ export default function Login() {
         </div>
 
         <div>
-          <button>Login</button>
+          <button
+          onClick={handleSubmission}>Login</button>
+          <span>{message}</span>
+        </div>
+        
+        <div>
+            Dont have an account? <NavLink to="/signup">
+              Sign up here.
+            </NavLink>
         </div>
       </form>
     </main>
