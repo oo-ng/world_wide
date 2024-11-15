@@ -2,7 +2,7 @@
 
 WorldWise is a travel companion app designed to provide users with an enhanced travel experience. It offers seamless navigation, personalized location services, and secure authentication for travelers seeking convenience on the go.
 
-#Features
+# Features
 
 Firebase Authentication: Secure user login and access management.
 
@@ -12,7 +12,7 @@ React Router Navigation: Smooth navigation between different parts of the app.
 
 Custom Hooks: Enhancing application modularity and reusability.
 
-#Getting Started
+# Getting Started
 
 To run this project locally, follow these steps:
 
@@ -20,7 +20,7 @@ To run this project locally, follow these steps:
 
 Ensure that Node.js and npm are installed on your machine.
 
-#Installation
+# Installation
 
 Fork the Project: Click on the 'Fork' button at the top-right of this repository to create your own copy.
 
